@@ -1,0 +1,625 @@
+/* ============================================================
+   Calendar.css — стилі інтерактивного календаря
+   Сітка місяця, маркери подій, анімації навігації
+   ============================================================ */
+
+.calendar-container {
+  padding: 28px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+  animation: fadeIn 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px);
+}
+
+.calendar-body {
+  display: flex;
+  flex: 1;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* ----- Основна частина календаря ----- */
+
+.calendar-main {
+  flex: 1;
+  min-width: 0;
+  transition: flex var(--transition-normal);
+}
+
+.calendar-main.with-panel {
+  flex: 1;
+}
+
+/* ----- Заголовок із навігацією по місяцях ----- */
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.calendar-nav-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.calendar-nav-btn:hover {
+  background: var(--color-bg-card-hover);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.calendar-month-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  min-width: 240px;
+  text-align: center;
+  color: var(--color-text-primary);
+}
+
+.calendar-today-btn {
+  padding: 8px 16px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  font-family: var(--font-family);
+  transition: all var(--transition-fast);
+}
+
+.calendar-today-btn:hover {
+  background: var(--color-bg-card-hover);
+  border-color: var(--color-text-primary);
+  transform: translateY(-1px);
+}
+
+/* ----- Сітка календаря ----- */
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  background: var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.calendar-grid-animate {
+  animation: gridFadeIn 0.25s ease;
+}
+
+@keyframes gridFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.calendar-weekday {
+  padding: 12px 8px;
+  text-align: center;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-secondary);
+}
+
+.calendar-weekday.weekend {
+  color: var(--color-calendar-weekend);
+}
+
+/* ----- Клітинка дня ----- */
+
+.calendar-day {
+  min-height: 100px;
+  padding: 8px;
+  background: var(--color-bg-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-day:hover {
+  background: var(--color-bg-card-hover);
+  z-index: 1;
+}
+
+.calendar-day.other-month {
+  opacity: 0.3;
+}
+
+.calendar-day.today {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+
+.calendar-day.selected {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 2px var(--color-accent);
+}
+
+.calendar-day.weekend {
+  background: var(--color-bg-primary);
+}
+
+.calendar-day-number {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+}
+
+.calendar-day.today .calendar-day-number {
+  background: var(--color-accent);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* ----- Маркери подій у клітинці ----- */
+
+.calendar-day-events {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.calendar-event-marker {
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  transition: all var(--transition-fast);
+}
+
+.calendar-event-marker:hover {
+  filter: brightness(1.2);
+}
+
+.calendar-day-more {
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+  padding: 1px 6px;
+  font-weight: 500;
+}
+
+/* ----- Бокова панель дня ----- */
+
+.day-panel {
+  width: 320px;
+  min-width: 320px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.day-panel-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: var(--color-bg-card);
+  z-index: 5;
+}
+
+.day-panel-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.day-panel-close {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.day-panel-close:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+  background: rgba(231, 76, 60, 0.08);
+}
+
+.day-panel-halves {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.day-panel-half {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.day-panel-half:first-child {
+  flex: 1.5;
+}
+
+.day-panel-half:last-child {
+  flex: 1;
+  border-bottom: none;
+}
+
+.day-panel-half-header {
+  padding: 12px 24px;
+  background: var(--color-bg-secondary);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.day-panel-half-scroll {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.day-panel-half-form {
+  flex-shrink: 0;
+}
+
+.day-panel-empty {
+  color: var(--color-text-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 20px 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ----- Task Picker ----- */
+
+.task-picker {
+  animation: fadeIn 0.2s ease;
+}
+
+.task-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.task-picker-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.task-picker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.task-picker-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.task-picker-item:hover {
+  background: var(--color-bg-card-hover);
+  border-color: var(--color-accent);
+  transform: translateX(4px);
+}
+
+.task-picker-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.task-picker-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-picker-name {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-picker-meta {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.event-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeIn 0.2s ease;
+}
+
+.event-form-row {
+  display: flex;
+  gap: 8px;
+}
+
+.event-form-row .input-field {
+  flex: 1;
+}
+
+.event-form select {
+  padding: 10px 12px;
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-family);
+  cursor: pointer;
+  flex: 1;
+}
+
+.event-form select:focus {
+  border-color: var(--color-border-focus);
+}
+
+.color-picker-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.color-swatch:hover {
+  transform: scale(1.15);
+}
+
+.color-swatch.active {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px var(--color-accent);
+  transform: scale(1.15);
+}
+
+.event-form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* ----- Картка події ----- */
+
+.event-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  animation: fadeIn 0.3s ease;
+}
+
+.event-card:hover {
+  background: var(--color-bg-card-hover);
+  border-color: var(--color-border-focus);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.event-card-color {
+  width: 4px;
+  min-height: 100%;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.event-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.event-card-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.event-card-time {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.event-card-desc {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.event-card-type {
+  display: inline-block;
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+  margin-top: 6px;
+}
+
+.event-card-type.event {
+  background: rgba(74, 144, 217, 0.15);
+  color: var(--color-accent);
+}
+
+.event-card-type.task {
+  background: rgba(243, 156, 18, 0.15);
+  color: var(--color-warning);
+}
+
+.event-card-type.reminder {
+  background: rgba(155, 89, 182, 0.15);
+  color: #9b59b6;
+}
+
+.event-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.event-action-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.event-action-btn:hover {
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+  background: var(--color-bg-input);
+}
+
+.event-action-btn.delete:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+  background: rgba(231, 76, 60, 0.08);
+}
+
+/* ----- Responsive ----- */
+
+@media (max-width: 1100px) {
+  .calendar-body {
+    flex-direction: column;
+  }
+
+  .day-panel {
+    width: 100%;
+    min-width: 100%;
+    max-height: 50vh;
+    animation: slideUp 0.3s ease;
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar {
+    padding: 16px;
+  }
+
+  .calendar-day {
+    min-height: 70px;
+    padding: 4px;
+  }
+
+  .calendar-day-number {
+    font-size: var(--font-size-xs);
+    width: 22px;
+    height: 22px;
+  }
+
+  .calendar-event-marker {
+    font-size: 0.55rem;
+    padding: 1px 4px;
+  }
+
+  .calendar-month-title {
+    font-size: var(--font-size-lg);
+    min-width: 180px;
+  }
+
+  .calendar-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}

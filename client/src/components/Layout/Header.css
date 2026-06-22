@@ -1,0 +1,107 @@
+/* ============================================================
+   Header.css — верхня навігаційна панель
+   ============================================================ */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 32px;
+  background: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.header-brand-icon {
+  font-size: 1.5rem;
+}
+
+.header-brand h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-nav-link {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+}
+
+.header-nav-link:hover,
+.header-nav-link.active {
+  color: var(--color-text-primary);
+  background: rgba(74, 144, 217, 0.1);
+}
+
+.header-nav-link.active {
+  color: var(--color-accent);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.header-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-accent), #9b59b6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: #fff;
+}
+
+.header-logout {
+  padding: 7px 14px;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.25);
+  border-radius: var(--radius-sm);
+  color: var(--color-danger);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  font-family: var(--font-family);
+}
+
+.header-logout:hover {
+  background: rgba(231, 76, 60, 0.2);
+  border-color: var(--color-danger);
+}
