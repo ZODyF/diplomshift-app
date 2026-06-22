@@ -30,7 +30,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     // Якщо токен прострочений — перенаправляємо на логін
-    if (error.response && error.response.status === 401) {
+    // Але ігноруємо запити на логін/реєстрацію, щоб показати помилку користувачу
+    const isAuthRequest = error.config && error.config.url && (error.config.url.includes('/auth/login') || error.config.url.includes('/auth/register'));
+    
+    if (error.response && error.response.status === 401 && !isAuthRequest) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';
