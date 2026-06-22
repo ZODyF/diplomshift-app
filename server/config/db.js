@@ -16,8 +16,8 @@ const config = {
   timezone: '+00:00'
 };
 
-// Якщо є DATABASE_URL (наприклад, у DigitalOcean App Platform)
-if (process.env.DATABASE_URL) {
+// Якщо є коректний DATABASE_URL (починається з mysql:// або mysqls://)
+if (process.env.DATABASE_URL && process.env.DATABASE_URL.startsWith('mysql')) {
   config.uri = process.env.DATABASE_URL;
   // Для хмарних баз даних зазвичай потрібен SSL
   config.ssl = { rejectUnauthorized: false };
