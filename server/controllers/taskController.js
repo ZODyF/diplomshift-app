@@ -43,7 +43,7 @@ async function getAllTasks(req, res) {
     }
 
     // Сортування: спочатку за пріоритетом (high → low), потім за датою створення
-    sql += ' ORDER BY FIELD(t.priority, "high", "medium", "low"), t.created_at DESC';
+    sql += " ORDER BY FIELD(t.priority, 'high', 'medium', 'low'), t.created_at DESC";
 
     const [tasks] = await db.query(sql, params);
     res.json({ tasks });

@@ -33,7 +33,7 @@ async function getEvents(req, res) {
     }
     // Фільтр за місяцем (формат: "2026-06")
     else if (month) {
-      sql += ' AND DATE_FORMAT(e.event_date, "%Y-%m") = ?';
+      sql += " AND DATE_FORMAT(e.event_date, '%Y-%m') = ?";
       params.push(month);
     }
 
